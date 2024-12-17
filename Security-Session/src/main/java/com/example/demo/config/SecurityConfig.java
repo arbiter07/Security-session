@@ -8,10 +8,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demo.config.security.CustomAuthenticationSuccessHandler;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+	
+	private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+	
+	
+	public SecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+    }
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -22,6 +31,8 @@ public class SecurityConfig {
 
 		http.formLogin((auth) -> auth.loginPage("/login")
 									 .loginProcessingUrl("/loginProc")
+									 // .defaultSuccessUrl("/", true)
+									 .successHandler(customAuthenticationSuccessHandler)
 									 .permitAll());
 		
 		 http.logout((auth) -> auth.logoutUrl("/logout").logoutSuccessUrl("/"));

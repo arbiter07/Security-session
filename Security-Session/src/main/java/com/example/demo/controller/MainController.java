@@ -30,8 +30,8 @@ public class MainController {
 		GrantedAuthority auth = iter.next();
 		String role = auth.getAuthority();
 		String name = authentication.getName();
-		log.info("name {]" , name);
-		log.info("role {]" , role);
+		log.info("name {}" , name);
+		log.info("role {}" , role);
 		log.info("************************************");
 		
 		model.addAttribute("name", "hello mustache! my name is " + name);
